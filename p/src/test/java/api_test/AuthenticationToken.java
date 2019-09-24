@@ -50,18 +50,17 @@ public class AuthenticationToken {
 		String env;
 		Scanner s = new Scanner(System.in);
 		
-		System.out.println("Enter environment you want to test--> Enter keyword 'QA' or 'PROD' to proceed further: ");
+		System.out.println("Enter environment you want to test--> Enter keyword 'QA' or 'PROD' or ''to proceed further: ");
 		env = s.nextLine();
 		return env;
 	}//end of input of envcheck
 	
 	
-	public static String Envcheck () {
+	public static String Envcheck () {  //This method is to pass URL for ADAS endpoints
 		String QA_URL ="https://adas-qa.ccmteam.com";
 		String PROD_URL ="http://adas-int.ccmteam.com";
 		String env_url;
 		String res = AuthenticationToken.Envcheck_input();
-		
 		
 		if(res.equals("QA")) {
 			env_url=QA_URL;	
@@ -80,7 +79,7 @@ public class AuthenticationToken {
 	}// end of env check
 	
 	
-	public static String AuthEnvcheck () {
+	public static String AuthEnvcheck () { //This method is to pass URL for non adas end point 
 		
 		String Auth_QA_URL="https://intelligence-qa.ccmteam.com";
 		String Auth_PROD_URL="https://intelligence.collectivei.com";

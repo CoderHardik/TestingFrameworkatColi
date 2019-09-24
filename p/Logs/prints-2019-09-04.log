@@ -1,0 +1,7 @@
+15:28:21.691 [main] DEBUG test.LoginLoadTimeTest - Entered user name
+15:28:21.767 [main] DEBUG test.LoginLoadTimeTest - Entered password
+15:28:21.832 [main] DEBUG test.LoginLoadTimeTest - Click login button
+15:28:25.388 [main] DEBUG test.LoginLoadTimeTest - Click Monthly predictive forecast on home page
+15:28:26.864 [main] INFO  test.LoginLoadTimeTest - Monthly predictive forecast on home page is : $19.46B
+15:31:32.860 [main] DEBUG test.LoginLoadTimeTest - Entered user name
+15:31:32.932 [main] DEBUG test.LoginLoadTimeTest - Entered password

@@ -1,15 +1,12 @@
 package test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertEqualsNoOrder;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
+import org.apache.logging.log4j.*;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,8 +14,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import jdk.internal.jline.internal.Log;
 import pages.GlobalplayPage;
 import pages.HomePage;
 import pages.LoginPage;
@@ -33,50 +31,60 @@ public class QA_Test {
     NetworkPage objNetworkPage;
     PipelinePage objPipelinePage;
     GlobalplayPage objGlobalplayPage;
-    String username = ReusableMethod.Username();
-    String password = ReusableMethod.Password();
-  
+    //String username = ReusableMethod.Username();
+    //String password = ReusableMethod.Password();
+    private static Logger Log=  LogManager.getLogger(LoginLoadTimeTest.class.getName());
 
 @BeforeMethod 
   public void beforeMethod() throws IOException {
-  System.setProperty("webdriver.chrome.driver","/Users/hshah/Desktop/AutoFramework/ChromeWebDriver/chromedriver");
-  driver = new ChromeDriver();
-  driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-  driver.get("https://intelligence-qa.ccmteam.com");
+	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/resources/ChromeWebDriver/chromedriver");
+	  //System.setProperty("webdriver.chrome.driver","/Users/hshah/Desktop/AutoFramework/ChromeWebDriver/chromedriver");
+	  Properties prop = new Properties();
+	  FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"/resources/data.properties");
+	  //FileInputStream fis = new FileInputStream("/Users/hshah/git/GUIandAPItestColi/p/src/test/java/resources/data.properties");
+	  
+	  /* Following code for headless option
+	  ChromeOptions options = new ChromeOptions();
+	  options.addArguments("headless");
+	  driver = new ChromeDriver(options);
+	  */
+	  prop.load(fis);
+	  driver = new ChromeDriver();
+	  driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	  driver.get(prop.getProperty("url"));
+	  objLogin = new LoginPage(driver);
+	  objHomePage = new HomePage(driver); 
+	  objNetworkPage = new NetworkPage(driver);
+	  objPipelinePage = new PipelinePage(driver);
+	  objLogin.setUserName(prop.getProperty("username"));  
+	  Log.debug("Entered user name");
+	  objLogin.setPassword(prop.getProperty("password"));	
+	  Log.debug("Entered password");
+	  objLogin.clickLogin();
+	  Log.debug("Click login button");
+	  
   }//end of beforeMethod
 
 @Test(priority=0)
-public void test_whats_happening_activities() throws InterruptedException{
+public void test_monthly_predictive_Forecast() throws InterruptedException{
 	WebDriverWait wait = new WebDriverWait(driver,30);
-	objLogin = new LoginPage(driver);
-	objHomePage = new HomePage(driver); 
-	objGlobalplayPage = new GlobalplayPage(driver);
-	objLogin.setUserName(username);
-	objLogin.setPassword(password);
-	objLogin.clickLogin();
 	
-	wait.until(ExpectedConditions.invisibilityOf(objHomePage.getWhatshappeningSpinner()));
-	wait.until(ExpectedConditions.elementToBeClickable(objHomePage.getWhats_happening_carousel_play()));
-	objHomePage.Whats_happening_play_carousel_click();//click
+	wait.until(ExpectedConditions.invisibilityOf(objHomePage.getForecastSpinner()));
+	wait.until(ExpectedConditions.elementToBeClickable(objHomePage.getMonthly_predictive_forecast()));
+	objHomePage.Monthly_predicitive_forecast_click();
+	Log.debug("Click Monthly predictive forecast on home page");
+	wait.until(ExpectedConditions.invisibilityOf(objHomePage.getForecastSpinner()));
+	wait.until(string->!objHomePage.Homepage_predicitive_forecast().contains("$0"));
+	String test_monthly_pred_forecast_home_page = objHomePage.Homepage_predicitive_forecast();
+	Log.info("Monthly predictive forecast on home page is : "+test_monthly_pred_forecast_home_page);
+	System.out.println("Monthly predictive forecast on home page is : "+test_monthly_pred_forecast_home_page);
+	objHomePage.Homepage_predicitive_forecast_click();
 	
-	wait.until(whats_happening_carousel_play->"//a[@class=‘flex-active’]");
-	wait.until(string->!objHomePage.Whats_happening_activities_count().contains("0"));
-	wait.until(ExpectedConditions.visibilityOf(objHomePage.getwhats_happening_carousel_current_visible()));
-	wait.until(whats_happening_carousel_current_visible->"//div[@class=‘wh-slide slide3’]");
-	
-	String whats_happening_play_count = objHomePage.Whats_happening_play_count();// extraction
-	int whatshappening_play_count = Integer.parseInt(whats_happening_play_count);
-	System.out.println("Number of open play in what's happening section is : "+whats_happening_play_count);
-	
-	wait.until(ExpectedConditions.elementToBeClickable(objHomePage.getWhats_happening_carousel_play_count()));
-	objHomePage.Whats_happening_play_count_click();
-	wait.until(string->!objGlobalplayPage.Played_by_yourTeam_Text().contains("0"));
-	String globalplay_text = objGlobalplayPage.Played_by_yourTeam_Text().replaceAll("\\D+","");
-	int play_count = Integer.parseInt(globalplay_text);
-	
-	System.out.println("Play count in Global play page for team is : "+play_count);
-	Assert.assertEquals(whatshappening_play_count, play_count);
-}//end of test
+	wait.until(ExpectedConditions.textToBePresentInElement(objHomePage.getManage_predicitive_forecast(), test_monthly_pred_forecast_home_page));
+	String test_monthly_pred_forecast_non_home_page = objHomePage.Manage_predicitive_forecast_text();
+	System.out.println("Monthly predictive forecast on predicitive forecast page is : "+test_monthly_pred_forecast_non_home_page);
+	Assert.assertEquals(test_monthly_pred_forecast_home_page, test_monthly_pred_forecast_non_home_page);
+}//End of test
 
 
 @AfterMethod

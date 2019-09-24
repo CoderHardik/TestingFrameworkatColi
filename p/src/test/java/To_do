@@ -1,0 +1,17 @@
+
+
+1. (Lecture 135):
+For API test cases. Create new package and for each page of class - put all associated test cases in that page. \
+That way, when you execute you can segarigate.
+
+- Same thing to be done for selenium test cases so it is easy to spot each of them
+ 
+ 
+ 2. For on boarding testing do jdbc test for following
+ 
+ - Check guids for user in mongo and udm
+ - check opps in mongo and udm/prime and compare them
+ 
+ 3. Set Global Properties file with URL, username etc. No need to have hashmap with username and guid. Can have properties file
+ 
+ 4. Create UI test for predictive forecast - where it checks date. if it is from past then fail.

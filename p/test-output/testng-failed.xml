@@ -3,14 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="test.LoginLoadTime">
+      <class name="test.QA_Test">
         <methods>
-          <include name="test_whats_happening_activities"/>
-          <include name="test_yearly_predictive_Forecast"/>
-          <include name="afterMethod"/>
           <include name="beforeMethod"/>
+          <include name="afterMethod"/>
+          <include name="test_monthly_predictive_Forecast"/>
         </methods>
-      </class> <!-- test.LoginLoadTime -->
+      </class> <!-- test.QA_Test -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

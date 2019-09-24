@@ -25,6 +25,9 @@ public class HomePage {
 
 	@FindBy(xpath="//div[@class=\"col-xs-12 what-hap-cont no-padding\"] //span[@class='loader-wrap']")
     WebElement whatshappeningSpinner;
+	
+	@FindBy(xpath="//div[@class='col-xs-12 no-padding'] //span[@class='loader-wrap']")
+    WebElement top_deals_Spinner;
 
 	@FindBy(xpath="//div[@class='col-xs-5 no-r-p p-sm-bottom link conn-cont']")
     WebElement topLeftSectionNetwork;
@@ -68,13 +71,20 @@ public class HomePage {
     @FindBy(xpath="//li[@class='item-list ng-scope flex-active-slide'] //span[2]") // Same as above just banner change
     WebElement whats_happening_carousel_play_count;
     
-    //@FindBy(xpath="//li[@class='item-list ng-scope flex-active-slide']") // to check if current banner is visible
-    //WebElement whats_happening_carousel_current_visible;
+    @FindBy(xpath="//div[text()='Most Activity']")
+    WebElement top_deals_most_activity_label_text;
+    
+    @FindBy(xpath="//div[text()='Closing Soon']")
+    WebElement top_deals_closing_soon_label_text;
+    
+    @FindBy(xpath="//div[text()='Highest Revenue']")
+    WebElement top_deals_highest_revenue_label_text;
     
     @FindBy(xpath="//li[@class='item-list ng-scope flex-active-slide']/child::div[1]") // SProblem with above xpath is that it will take whatever is active
-    WebElement whats_happening_carousel_current_visible;// problem with this x path is that it has 2 elemennts with this class
+    WebElement whats_happening_carousel_current_visible;// problem with this x path is that it has 2 elements with this class
 
-	public HomePage(WebDriver driver){
+    //create constructor. so 1) it can get loaded driver as parameter here.
+	public HomePage(WebDriver driver){ 
         this.driver = driver;
         //This initElements method will create all WebElements
         PageFactory.initElements(driver, this);
@@ -160,42 +170,38 @@ public class HomePage {
 	    	whats_happening_carousel_play_count.click();
 	    }
 	
-	
 		public WebElement getTopLeftSection() {
 			return topLeftSection;
 		}
-	
 	
 		public WebElement getMonthly_predictive_forecast() {
 			return monthly_predictive_forecast;
 		}
 	
-		
 		public WebElement getTopLeftSectionNetwork() {
 			return topLeftSectionNetwork;
 		}
 		
-	
 		public WebElement getTopLeftSectionOpportunity() {
 			return topLeftSectionOpportunity;
 		}
-	
 		
 		 public WebElement getManage_predicitive_forecast() {
 			return manage_predicitive_forecast;
 		}
-	
-		  
+	 
 	    public WebElement getWhats_happening_carousel_activities() {
 			return whats_happening_carousel_activities;
 		}
 	
-	
 		public WebElement getWhats_happening_carousel_risk() {
 			return whats_happening_carousel_risk;
 		}
-	
 		
+		public String getWhats_happening_carousel_text_risk() {
+			return whats_happening_carousel_risk.getText();
+		}
+	
 		public WebElement getWhats_happening_carousel_play() {
 			return whats_happening_carousel_play;
 			}
@@ -206,6 +212,10 @@ public class HomePage {
 		
 		public WebElement getWhats_happening_carousel_play_count() {
 			return whats_happening_carousel_play_count;
+			}
+		
+		public String getWhats_happening_carousel_play_text_count() {
+			return whats_happening_carousel_play_count.getText();
 			}
 		  
 		public WebElement getWhatshappeningSpinner() {
@@ -220,7 +230,20 @@ public class HomePage {
 			return forecastSpinner;
 			}
 		
-	
+		public WebElement getTopDealSpinner() {
+			return top_deals_Spinner;
+		}
+		
+		public WebElement getTopDealHighestRevenueLabel() {
+			return top_deals_highest_revenue_label_text;
+		}
+		
+		public WebElement getTopDealClosingSoonLabel() {
+			return top_deals_closing_soon_label_text;
+		}
+		public WebElement getTopDealMostActivityLabel() {
+			return top_deals_most_activity_label_text;
+		}
 		
 		
     }//end of class
